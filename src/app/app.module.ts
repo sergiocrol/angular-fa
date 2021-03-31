@@ -17,7 +17,12 @@ import { PastTrainingsComponent } from './training/past-trainings/past-trainings
 import { WelcomeComponent } from './welcome/welcome.component';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
+import { StopTrainingComponent } from './training/current-training/stop-training.component';
 
+import { AuthService } from './auth/auth.service';
+import { TrainingService } from './training/training.service';
+
+// entryComponents is gonna be used for those components created programatically, like dialogs. We are telling to Angular to be prepared to use them
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,6 +35,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
     WelcomeComponent,
     HeaderComponent,
     SidenavListComponent,
+    StopTrainingComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +46,8 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
     FlexLayoutModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [AuthService, TrainingService],
   bootstrap: [AppComponent],
+  entryComponents: [StopTrainingComponent],
 })
 export class AppModule {}

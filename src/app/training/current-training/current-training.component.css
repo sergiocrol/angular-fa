@@ -1,0 +1,19 @@
+.current-training {
+  padding: 20px;
+  position: relative;
+}
+
+.top-spinner {
+  z-index: 2;
+}
+
+.bg-spinner {
+  position: absolute;
+  z-index: 1;
+  opacity: 0.3;
+  top: 20px;
+}
+
+.quit-button {
+  margin-top: 20px;
+}
