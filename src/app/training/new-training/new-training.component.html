@@ -1,28 +1,52 @@
 <section class="new-training" fxLayout fxLayoutAlign="center">
-  <mat-card
-    fxFlex.xs="100%"
-    fxFlex="400px"
-    fxLayout="column"
-    fxLayoutAlign="center center"
-  >
-    <mat-card-title>Time to start a workout!</mat-card-title>
-    <mat-card-content>
-      <mat-form-field>
-        <mat-select placeholder="select type of training" #selectedExercise>
-          <mat-option *ngFor="let exercise of exercises" [value]="exercise.id">
-            {{ exercise.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-card-content>
-    <mat-card-actions>
-      <button
-        type="submit"
-        mat-button
-        (click)="onStartTraining(selectedExercise)"
-      >
-        Start
-      </button>
-    </mat-card-actions>
-  </mat-card>
+  <form (ngSubmit)="onStartTraining(f)" #f="ngForm">
+    <mat-card
+      fxFlex.xs="100%"
+      fxFlex="400px"
+      fxLayout="column"
+      fxLayoutAlign="center center"
+    >
+      <mat-card-title>Time to start a workout!</mat-card-title>
+      <mat-card-content *ngIf="!(isLoading$ | async) && (exercises$ | async)">
+        <mat-form-field>
+          <mat-select
+            placeholder="select type of training"
+            ngModel
+            name="exercise"
+            required
+            #selectedExercise
+          >
+            <!-- Since exercises is returning now an observable because of valueChanges of training component, we need to use async -->
+            <mat-option
+              *ngFor="let exercise of exercises$ | async"
+              [value]="exercise.id"
+            >
+              {{ exercise.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions *ngIf="!(isLoading$ | async)">
+        <button
+          type="submit"
+          mat-button
+          *ngIf="exercises$ | async"
+          [disabled]="f.invalid"
+        >
+          Start
+        </button>
+        <button
+          type="button"
+          mat-button
+          *ngIf="!(exercises$ | async)"
+          (click)="fetchExercises()"
+        >
+          Try again
+        </button>
+      </mat-card-actions>
+      <mat-spinner *ngIf="isLoading$ | async"></mat-spinner>
+    </mat-card>
+  </form>
 </section>
+
+<!-- (click)="onStartTraining(selectedExercise)" -->
